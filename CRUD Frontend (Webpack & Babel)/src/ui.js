@@ -73,11 +73,54 @@ class UI {
         this.bodyInput.value = '';
     }
 
+    // Clear ID hidden value
+    clearIdInput(){
+        this.idInput.value = '';
+    }
+
     // Fill form to edit
     fillForm(data) {
         this.titleInput.value = data.title;
         this.bodyInput.value = data.body;
         this.idInput.value = data.id;
+
+        this.changeFormState('edit');
+    }
+
+    // Change form state
+    changeFormState(type){
+        if(type === 'edit'){
+            this.postSubmit.textContent = 'Update Post';
+            // className je citav skup klasa
+            this.postSubmit.className = 'post-submin btn btn-warning btn-block';
+
+            // Create cancel button
+            const button = document.createElement('button');
+            button.className = 'post-cancel btn btn-light btn-block';
+            button.appendChild(document.createTextNode('Cancel Edit'));
+
+            // Get Parent
+            const cardForm = document.querySelector('.card-form');
+            // Get element to insert before
+            // ubacujemo pre spana form end (taj span je koristan za ovakva ubacivanja)
+            const formEnd = document.querySelector('.form-end');
+            // Insert cancel button
+            cardForm.insertBefore(button, formEnd);
+        }
+        else {
+            this.postSubmit.textContent = 'Post it';
+            // className je citav skup klasa
+            this.postSubmit.className = 'post-submin btn btn-primary btn-block';
+            // Remove cancel button if is there
+            if(document.querySelector('.post-cancel')){
+                document.querySelector('.post-cancel').remove();
+            }
+            // Clear ID from hidden field
+            this.clearIdInput();
+            // Clear text
+            this.clearFields();
+
+        }
     }
 
 }
